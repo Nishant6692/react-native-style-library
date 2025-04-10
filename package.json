@@ -1,7 +1,7 @@
 {
   "name": "react-native-style-system",
-  "version": "1.0.0",
-  "description": "A reusable central styling library for React Native, optimized for iOS and Android",
+  "version": "1.0.1",
+  "description": "A reusable central styling library for React Native",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -12,24 +12,21 @@
     "react-native",
     "styles",
     "design-system",
-    "theme",
-    "ios",
-    "android",
-    "cross-platform"
+    "theme"
   ],
-  "author": "Your Name <your.email@example.com>",
   "repository": {
-    "type": "git",
-    "url": "https://github.com/yourusername/react-native-style-system"
-  },
+       "type": "git",
+       "url": "https://github.com/Nishant6692/react-native-style-library.git"
+     },
+  "author": "Nishant",
   "license": "MIT",
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-native": ">=0.60.0"
   },
   "devDependencies": {
-    "@types/react": "^19.0.0",
-    "@types/react-native": "^0.72.0",
+    "@types/react": "^18.0.0",
+    "@types/react-native": "^0.70.0",
     "typescript": "^4.9.0"
   },
   "files": [
