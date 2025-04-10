@@ -24,41 +24,46 @@ A reusable central styling library for React Native that can be used across mult
 
 ## Installation
 
-### From NPM (after publishing)
+### From NPM
 
 ```bash
-npm install react-native-style-system
+# Install the package
+npm install @nishant/react-native-style-system
 # OR
-yarn add react-native-style-system
+yarn add @nishant/react-native-style-system
+
+# If you encounter peer dependency issues, use one of these flags:
+npm install @nishant/react-native-style-system --legacy-peer-deps
+# OR
+yarn add @nishant/react-native-style-system --ignore-peer-dependencies
 ```
 
 ### From GitHub
 
 ```bash
-npm install github:yourusername/react-native-style-system
+# Install directly from GitHub
+npm install github:nishant/react-native-style-system
 # OR
-yarn add github:yourusername/react-native-style-system
+yarn add github:nishant/react-native-style-system
 ```
 
-### Local Development
+### Troubleshooting Installation
 
-1. Clone the repository
+If you encounter peer dependency conflicts (common with React Native projects), try one of these approaches:
+
+1. Use the `--legacy-peer-deps` flag with npm:
    ```bash
-   git clone https://github.com/yourusername/react-native-style-system.git
-   cd react-native-style-system
+   npm install @nishant/react-native-style-system --legacy-peer-deps
    ```
 
-2. Install dependencies and build
+2. Or use the `--ignore-peer-dependencies` flag with yarn:
    ```bash
-   npm install
-   npm run build
+   yarn add @nishant/react-native-style-system --ignore-peer-dependencies
    ```
 
-3. Link to your project
+3. If you're using React Native 0.70+, make sure your `@types/react` version is compatible:
    ```bash
-   npm link
-   cd /path/to/your/project
-   npm link react-native-style-system
+   npm install @types/react@^19.0.0 --save-dev
    ```
 
 ## Usage
@@ -126,16 +131,63 @@ const styles = StyleSheet.create({
 });
 ```
 
-### Using Style Helpers
+### Cross-Platform Shadows
 
 ```tsx
-import { containerStyle, shadowStyle } from 'react-native-style-system';
+import { shadowStyle } from 'react-native-style-system';
 import { View, Text } from 'react-native';
 
+// This will automatically use the appropriate shadow implementation
+// for iOS (shadowProps) and Android (elevation)
 const MyComponent = () => (
-  <View style={[containerStyle.card, shadowStyle.medium]}>
-    <Text>This is a card with cross-platform shadow</Text>
+  <View style={[{ padding: 16, borderRadius: 8 }, shadowStyle.medium]}>
+    <Text>This card has proper shadows on both iOS and Android</Text>
   </View>
+);
+```
+
+### Platform-Specific Status Bar
+
+```tsx
+import { statusBarStyle } from 'react-native-style-system';
+import { StatusBar } from 'react-native';
+
+const MyComponent = () => (
+  <>
+    <StatusBar 
+      barStyle={statusBarStyle.dark} 
+      backgroundColor="transparent"
+      translucent={true}
+    />
+    {/* Your component content */}
+  </>
+);
+```
+
+### Platform-Specific Touch Feedback
+
+```tsx
+import { touchableHighlight, rippleConfig, colors } from 'react-native-style-system';
+import { TouchableOpacity, Platform, Text } from 'react-native';
+
+const Button = ({ onPress, title }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    activeOpacity={Platform.OS === 'ios' ? 
+      touchableHighlight.ios.activeOpacity : 
+      touchableHighlight.android.activeOpacity
+    }
+    // Android ripple effect (React Native 0.63+)
+    android_ripple={Platform.OS === 'android' ? rippleConfig : undefined}
+    style={{
+      backgroundColor: colors.primary,
+      padding: 16,
+      borderRadius: 8,
+      alignItems: 'center',
+    }}
+  >
+    <Text style={{ color: 'white' }}>{title}</Text>
+  </TouchableOpacity>
 );
 ```
 
@@ -213,6 +265,20 @@ export const textStyle = {
 - `touchableHighlight`: Platform-specific touch highlight properties
 - `rippleConfig`: Android ripple effect configuration
 
+## Compatibility
+
+- React Native: >=0.60.0
+- React: >=16.8.0
+- TypeScript: >=4.9.0
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
 ## License
 
-MIT 
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+Made with ❤️ by Nishant 
